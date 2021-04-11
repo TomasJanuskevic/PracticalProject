@@ -1,21 +1,26 @@
 package shop;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import shop.dao.CartDao;
 import shop.dao.ProductDao;
-import shop.dao.UserDao;
-import shop.model.BuyItem;
 import shop.model.Cart;
-import shop.model.Product;
 import shop.model.User;
+import shop.service.ProductService;
+import shop.service.ShopService;
+import shop.service.UserService;
 import shop.utils.DatabaseUtils;
 
+import java.util.List;
 import java.util.Scanner;
 
 
 public class Application {
+
+    private static UserService userService = new UserService();
+    private static ProductService productService = new ProductService();
+    private static ShopService shopService = new ShopService();
+
     public void application() {
-        User user = connectingToShop();
+        User user = shopService.connectingToShop();
         if (user == null) {
             return;
         }
@@ -47,11 +52,11 @@ public class Application {
                 ProductDao productDao = new ProductDao();
                 productDao.printAllProducts();
             } else if (userInput == 3) {
-                addProductToCart(cart);
+                productService.addProductToCart(cart);
             } else if (userInput == 4) {
                 System.out.println("Sorry this feature is in progress");
             } else if (userInput == 5) {
-                confirmBuying(cart, user);
+                shopService.confirmBuying(cart, user);
                 System.out.println("Thank you for buying in our shop");
                 return;
             } else if (userInput == 6) {
@@ -59,104 +64,16 @@ public class Application {
                 System.out.println("Goodbye");
                 return;
             } else if (userInput == 7) {
-                printBuyingHistory(user);
+                CartDao cartDao = new CartDao();
+                List<Cart> carts = cartDao.getCarts(user.getUserId());
+                carts.forEach(cart1->cart1.printCartSummary());
             } else if (userInput == 8) {
-                deleteAccount(user);
+                userService.deleteAccount(user);
                 return;
             } else {
                 System.out.println("Bad input, try again");
             }
         }
-    }
-
-    private void deleteAccount(User user) {
-        UserDao userDao = new UserDao();
-        userDao.deleteUser(user);
-        DatabaseUtils.shutDown();
-        System.out.println("Goodbye");
-    }
-
-    private void printBuyingHistory(User user) {
-
-        user.getCarts().forEach(userCart -> userCart.printCartSummary());
-    }
-
-    private User connectingToShop() {
-        System.out.println("--------------------------");
-        System.out.println("1. Log in\n" +
-                "2. Create account");
-        System.out.println("--------------------------");
-        System.out.print("Select option -> ");
-
-        Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-
-        if (userInput == 1) {
-            return logIn();
-        } else if (userInput == 2) {
-            return createAccount();
-        } else {
-            System.out.println("Wrong input.");
-        }
-        return null;
-    }
-
-    private User createAccount() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter Name -> ");
-        String userName = scanner.nextLine();
-        System.out.print("Enter password -> ");
-        String userPassword = scanner.nextLine();
-
-        Session session = DatabaseUtils.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(new User(userName, userPassword));
-        transaction.commit();
-        session.close();
-        System.out.println("New account was created");
-        UserDao userDao = new UserDao();
-        return userDao.getUser(userName);
-    }
-
-    private User logIn() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter Name -> ");
-        String userName = scanner.nextLine();
-        UserDao userDao = new UserDao();
-        User userFromDB = userDao.getUser(userName);
-        System.out.print("Enter password -> ");
-        String userPassword = scanner.nextLine();
-
-        if (userPassword.equals(userFromDB.getPassword())) {
-            System.out.println("Welcome " + userFromDB.getName());
-            return userFromDB;
-        } else {
-            System.out.println("Wrong password");
-        }
-        return null;
-    }
-
-    private void addProductToCart(Cart cart) {
-        Scanner scanner = new Scanner(System.in);
-        ProductDao productDao = new ProductDao();
-        System.out.print("Select product id ->");
-        Long selectedProductId = scanner.nextLong();
-        Product product = productDao.getProduct(selectedProductId);
-        System.out.println(product);
-        System.out.print("Write quantity ->");
-        int productQuantity = scanner.nextInt();
-        BuyItem buyItem = new BuyItem(productQuantity, product, cart);
-        cart.addBuyItem(buyItem);
-    }
-
-    private void confirmBuying(Cart cart, User user) {
-        Session session = DatabaseUtils.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(user);
-        user.addCart(cart);
-
-        transaction.commit();
-        DatabaseUtils.shutDown();
     }
 
 

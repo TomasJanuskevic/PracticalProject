@@ -1,14 +1,15 @@
 package shop.model;
 
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor
+
 public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
@@ -22,6 +23,9 @@ public class Cart {
 
     public Cart(User user) {
         this.user = user;
+    }
+
+    public Cart() {
     }
 
     public Long getCartId() {
