@@ -32,7 +32,7 @@ public class CartService {
         return cart;
     }
 
-    private BuyItem findBuyItemByProductId(Set<BuyItem> buyItems, Long productId) {
+    public BuyItem findBuyItemByProductId(Set<BuyItem> buyItems, Long productId) {
         for (BuyItem buyItem : buyItems) {
             if (buyItem.getProduct().getProductId().equals(productId)) {
                 return buyItem;

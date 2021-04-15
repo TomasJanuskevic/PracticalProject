@@ -1,6 +1,7 @@
 package shop.model.products;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
