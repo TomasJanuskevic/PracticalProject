@@ -8,16 +8,6 @@ import shop.model.User;
 import javax.persistence.Query;
 
 public class UserDao {
-    public User getUser(Long id) {
-        User user = null;
-        try {
-            Session session = DatabaseUtils.getSessionFactory().openSession();
-            user = session.find(User.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
 
     public User getUser(String name) {
         User user = null;
@@ -31,8 +21,6 @@ public class UserDao {
             e.printStackTrace();
         }
         return user;
-
-
     }
 
     public void deleteUser(User user){

@@ -8,7 +8,10 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import shop.model.BuyItem;
 import shop.model.Cart;
-import shop.model.Product;
+import shop.model.products.Console;
+import shop.model.products.Laptop;
+import shop.model.products.Phone;
+import shop.model.products.Product;
 import shop.model.User;
 
 import java.util.Properties;
@@ -39,6 +42,9 @@ public class DatabaseUtils {
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Cart.class);
             configuration.addAnnotatedClass(BuyItem.class);
+            configuration.addAnnotatedClass(Phone.class);
+            configuration.addAnnotatedClass(Laptop.class);
+            configuration.addAnnotatedClass(Console.class);
 
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

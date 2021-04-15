@@ -2,7 +2,7 @@ package shop.dao;
 
 import org.hibernate.Session;
 import shop.utils.DatabaseUtils;
-import shop.model.Product;
+import shop.model.products.Product;
 
 public class ProductDao {
 

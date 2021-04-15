@@ -1,10 +1,16 @@
 package shop.model;
 
-
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import shop.model.products.Product;
 
 import javax.persistence.*;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 
@@ -29,44 +35,9 @@ public class BuyItem {
         this.cart = cart;
     }
 
-    public BuyItem() {
-    }
-
-    public Long getBuyItemId() {
-        return buyItemId;
-    }
-
-    public void setBuyItemId(Long buyItemId) {
-        this.buyItemId = buyItemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
     @Override
     public String toString() {
-        return product.getProductId() + ". " + product.getItem() + ": " + product.getPrice() + " Eur - " + quantity + " qty";
+        return product.getProductId() + ". " + product.getBrand() + ": " + product.getPrice() + " Eur - " + quantity + " qty";
     }
 
     public int buyItemPrice() {

@@ -3,7 +3,7 @@ package shop.service;
 import shop.dao.ProductDao;
 import shop.model.BuyItem;
 import shop.model.Cart;
-import shop.model.Product;
+import shop.model.products.Product;
 
 import java.util.Scanner;
 

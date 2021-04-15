@@ -1,10 +1,16 @@
 package shop.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "User")
@@ -24,41 +30,6 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
-    }
-
-    public User() {
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
     }
 
     public void addCart(Cart cart) {

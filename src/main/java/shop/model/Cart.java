@@ -1,8 +1,16 @@
 package shop.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 
@@ -21,33 +29,6 @@ public class Cart {
 
     public Cart(User user) {
         this.user = user;
-    }
-
-    public Cart() {
-    }
-
-    public Long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<BuyItem> getBuyItems() {
-        return buyItems;
-    }
-
-    public void setBuyItems(Set<BuyItem> buyItems) {
-        this.buyItems = buyItems;
     }
 
     public void addBuyItem(BuyItem buyItem) {

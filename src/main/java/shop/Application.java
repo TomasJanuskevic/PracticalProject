@@ -24,7 +24,7 @@ public class Application {
         }
 
         String meniu = "1. Show menu\n" +
-                "2. Display all products\n" +
+                "2. Display products\n" +
                 "3. Add product to your cart\n" +
                 "4. Edit cart\n" +
                 "5. Show cart\n" +
@@ -48,7 +48,7 @@ public class Application {
             if (userInput == 1) {
                 System.out.println(meniu);
             } else if (userInput == 2) {
-                printService.printAllProducts();
+                printService.printProducts();
             } else if (userInput == 3) {
                 productService.addProductToCart(cart);
             } else if (userInput == 4) {
