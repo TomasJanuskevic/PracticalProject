@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class CartService {
-    public Cart editCart(Cart cart) {
+    public void editCart(Cart cart) {
         Scanner scanner = new Scanner(System.in);
         cart.getBuyItems().stream().forEach(System.out::println);
 
@@ -29,7 +29,6 @@ public class CartService {
         } else  if (userInput == 2){
             deleteProductById(cart.getBuyItems(), productId);
         }
-        return cart;
     }
 
     public BuyItem findBuyItemByProductId(Set<BuyItem> buyItems, Long productId) {
@@ -42,7 +41,7 @@ public class CartService {
         return null;
     }
 
-    private void deleteProductById(Set<BuyItem> buyItems, Long productId){
+    public void deleteProductById(Set<BuyItem> buyItems, Long productId){
         for (BuyItem buyItem : buyItems) {
             if(buyItem.getProduct().getProductId().equals(productId)){
                 buyItems.remove(buyItem);
