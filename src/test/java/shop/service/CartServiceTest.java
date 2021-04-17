@@ -3,7 +3,8 @@ package shop.service;
 import org.junit.jupiter.api.Test;
 import shop.model.BuyItem;
 import shop.model.Cart;
-import shop.model.products.Product;
+import shop.model.products.Laptop;
+import shop.model.products.Phone;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -16,8 +17,8 @@ class CartServiceTest {
     @Test
     void findBuyItemByProductId() {
         Cart cart = new Cart();
-        Product phone = new Product(1L, "Samsung Galaxy A51", 300);
-        Product laptop = new Product(2L, "Dell XPS 15", 1500);
+        Phone phone = new Phone(1L, "Samsung Galaxy A51", 300, 64, "48mp", 4000);
+        Laptop laptop = new Laptop(2L, "Asus VivoBook S15", 800, 15.6, "Intel Core i5", 512);
         BuyItem buyItem = new BuyItem(2, phone, cart);
         BuyItem expectedBuyItem = new BuyItem(3, laptop, cart);
         Set<BuyItem> buyItems = new LinkedHashSet<>();
@@ -34,8 +35,8 @@ class CartServiceTest {
     @Test
     void deleteProductById() {
         Cart cart = new Cart();
-        Product phone = new Product(1L, "Samsung Galaxy A51", 300);
-        Product laptop = new Product(2L, "Dell XPS 15", 1500);
+        Phone phone = new Phone(1L, "Samsung Galaxy A51", 300, 64, "48mp", 4000);
+        Laptop laptop = new Laptop(2L, "Asus VivoBook S15", 800, 15.6, "Intel Core i5", 512);
         BuyItem buyItem1 = new BuyItem(2, phone, cart);
         BuyItem buyItem2 = new BuyItem(3, laptop, cart);
 

@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product {
+public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
@@ -32,4 +32,6 @@ public class Product {
     public String toString() {
         return productId + ". " + brand + " " + price + " eur";
     }
+
+    public abstract void productDescription();
 }

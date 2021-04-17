@@ -2,6 +2,8 @@ package shop.service;
 
 import org.hibernate.Session;
 import shop.dao.CartDao;
+import shop.dao.ProductDao;
+import shop.exception.FailedFindProductException;
 import shop.model.Cart;
 import shop.model.products.Product;
 import shop.model.User;
@@ -15,22 +17,42 @@ public class PrintService {
 
     public void printProducts() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Select category:\n" +
-                "1. Phones\n" +
+
+        System.out.print("1. Phones\n" +
                 "2. Laptops\n" +
-                "3. Consoles");
+                "3. Consoles\n" +
+                "Select category -> ");
         int userInput = scanner.nextInt();
 
         if (userInput == 1) {
             printProductsFromCategory("from Phone");
+            printProductDetailedDescription();
         } else if (userInput == 2) {
             printProductsFromCategory("from Laptop");
+            printProductDetailedDescription();
         } else if (userInput == 3) {
             printProductsFromCategory("from Console");
+            printProductDetailedDescription();
         } else {
             System.out.println("Bad input");
         }
     }
+
+    private void printProductDetailedDescription() {
+        System.out.print("For detailed description select product id -> ");
+        Scanner scanner = new Scanner(System.in);
+        Long productId = scanner.nextLong();
+        ProductDao productDao = new ProductDao();
+        try {
+            Product product = productDao.getProduct(productId);
+            product.productDescription();
+        } catch (FailedFindProductException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     private void printProductsFromCategory(String categoryQuery) {
         Session session = DatabaseUtils.getSessionFactory().openSession();
@@ -58,7 +80,7 @@ public class PrintService {
                 "9. Delete Account");
     }
 
-    public void printConnectingToShopMenu(){
+    public void printConnectingToShopMenu() {
         System.out.println("--------------------------");
         System.out.println("1. Log in\n" +
                 "2. Create account\n" +

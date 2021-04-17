@@ -1,5 +1,6 @@
 package shop.model.products;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,5 +31,21 @@ public class Phone extends Product {
         this.memory = memory;
         this.camera = camera;
         this.battery = battery;
+    }
+
+    public Phone(Long productId, String brand, int price, int memory, String camera, int battery) {
+        super(productId, brand, price);
+        this.memory = memory;
+        this.camera = camera;
+        this.battery = battery;
+    }
+
+    @Override
+    public void productDescription() {
+        System.out.println(getBrand() + ":"
+                + "\nMemory: " + memory
+                + "\nCamera: " + camera
+                + "\nBattery: " + battery
+                + "\nPrice: " + getPrice());
     }
 }
