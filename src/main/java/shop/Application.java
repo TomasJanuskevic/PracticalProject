@@ -1,6 +1,5 @@
 package shop;
 
-import shop.dao.ProductDao;
 import shop.model.Cart;
 import shop.model.User;
 import shop.service.*;
@@ -20,23 +19,15 @@ public class Application {
     public void application() {
         User user = shopService.connectingToShop();
         if (user == null) {
+            DatabaseUtils.shutDown();
+            System.out.println("Goodbye");
             return;
         }
-
-        String meniu = "1. Show menu\n" +
-                "2. Display products\n" +
-                "3. Add product to your cart\n" +
-                "4. Edit cart\n" +
-                "5. Show cart\n" +
-                "6. Confirm your buying\n" +
-                "7. Cancel shopping\n" +
-                "8. Shopping history\n" +
-                "9. Delete Account";
 
         System.out.println("Welcome to our shop");
         System.out.println("--------------------------");
         Cart cart = new Cart(user);
-        System.out.println(meniu);
+        printService.printMenu();
 
         while (true) {
             System.out.println();
@@ -46,7 +37,7 @@ public class Application {
             int userInput = scanner.nextInt();
 
             if (userInput == 1) {
-                System.out.println(meniu);
+                printService.printMenu();
             } else if (userInput == 2) {
                 printService.printProducts();
             } else if (userInput == 3) {

@@ -13,7 +13,6 @@ public class CartDao {
         Query query = session.createQuery("FROM Cart WHERE user_id=: userId");
         query.setParameter("userId", userId);
         return query.getResultList();
-
     }
 
 }

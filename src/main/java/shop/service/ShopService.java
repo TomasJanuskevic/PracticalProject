@@ -5,31 +5,35 @@ import org.hibernate.Transaction;
 import shop.model.Cart;
 import shop.model.User;
 import shop.utils.DatabaseUtils;
-
 import java.util.Scanner;
 
 public class ShopService {
 
     private static UserService userService = new UserService();
+    private static PrintService printService = new PrintService();
 
     public User connectingToShop() {
-        System.out.println("--------------------------");
-        System.out.println("1. Log in\n" +
-                "2. Create account");
-        System.out.println("--------------------------");
-        System.out.print("Select option -> ");
+        while (true) {
+            printService.printConnectingToShopMenu();
+            Scanner scanner = new Scanner(System.in);
+            int userInput = scanner.nextInt();
 
-        Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-
-        if (userInput == 1) {
-            return userService.logIn();
-        } else if (userInput == 2) {
-            return userService.createAccount();
-        } else {
-            System.out.println("Wrong input.");
+            if (userInput == 1) {
+                User user = userService.logIn();
+                if (user != null) {
+                    return user;
+                }
+            } else if (userInput == 2) {
+                User user = userService.createAccount();
+                if (user != null) {
+                    return user;
+                }
+            } else if (userInput == 3) {
+                return null;
+            } else {
+                System.out.println("Wrong input.");
+            }
         }
-        return null;
     }
 
     public void confirmBuying(Cart cart, User user) {

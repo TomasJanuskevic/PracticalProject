@@ -1,8 +1,8 @@
 package shop.service;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import shop.dao.UserDao;
+import shop.exception.ExistingUserException;
+import shop.exception.FailedFindUserException;
 import shop.model.User;
 import shop.utils.DatabaseUtils;
 
@@ -23,22 +23,32 @@ public class UserService {
         System.out.print("Enter password -> ");
         String userPassword = scanner.nextLine();
 
-        Session session = DatabaseUtils.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(new User(userName, userPassword));
-        transaction.commit();
-        session.close();
-        System.out.println("New account was created");
-        UserDao userDao = new UserDao();
-        return userDao.getUser(userName);
+        try {
+            User user = new User(userName, userPassword);
+            UserDao userDao = new UserDao();
+            userDao.saveUser(user);
+            System.out.println("New account was created");
+            return userDao.getUser(userName);
+        } catch (ExistingUserException | FailedFindUserException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public User logIn() {
+        User userFromDB;
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter Name -> ");
         String userName = scanner.nextLine();
         UserDao userDao = new UserDao();
-        User userFromDB = userDao.getUser(userName);
+
+        try {
+            userFromDB = userDao.getUser(userName);
+        } catch (FailedFindUserException e) {
+            e.printStackTrace();
+            return null;
+        }
+
         System.out.print("Enter password -> ");
         String userPassword = scanner.nextLine();
 
