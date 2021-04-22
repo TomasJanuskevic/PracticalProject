@@ -8,6 +8,7 @@ import shop.utils.DatabaseUtils;
 import shop.model.User;
 
 import javax.persistence.Query;
+import java.util.List;
 
 public class UserDao {
 
@@ -16,13 +17,13 @@ public class UserDao {
         Session session = DatabaseUtils.getSessionFactory().openSession();
         Query query = session.createQuery("from User where name=:name", User.class);
         query.setParameter("name", name);
+        List<User> users = query.getResultList();
 
-        try {
-            user = (User) query.getSingleResult();
-        } catch (Exception e) {
+        if (users.isEmpty()) {
             throw new FailedFindUserException(name);
+        } else {
+            user = users.get(0);
         }
-
         session.close();
         return user;
     }
@@ -30,11 +31,12 @@ public class UserDao {
     public void saveUser(User user) throws ExistingUserException {
         Session session = DatabaseUtils.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        try {
+
+        if (checkIfuserExist(user.getName())) {
+            throw new ExistingUserException(user.getName());
+        } else {
             session.save(user);
             transaction.commit();
-        } catch (Exception e) {
-            throw new ExistingUserException(user.getName());
         }
         session.close();
     }
@@ -45,5 +47,15 @@ public class UserDao {
         session.refresh(user);
         session.delete(user);
         transaction.commit();
+    }
+
+    private boolean checkIfuserExist(String name) {
+        Session session = DatabaseUtils.getSessionFactory().openSession();
+        Query query = session.createQuery("from User where name=:name", User.class);
+        query.setParameter("name", name);
+        List<User> users = query.getResultList();
+        session.close();
+        return !users.isEmpty();
+
     }
 }
